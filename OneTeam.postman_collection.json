@@ -89,9 +89,13 @@
 									"\r",
 									"pm.test(\"Response body is a valid JSON\", function () {\r",
 									"    pm.response.to.be.json; // Проверяем, что ответ в формате JSON\r",
-									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; // Пытаемся распарсить ответ\r",
+									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
 									"});\r",
 									"\r",
+									"pm.test(\"У поставщика dostuplkp='on'\", function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.rights.dostuplkp).to.eql(\"on\");\r",
+									"})\r",
 									"\r",
 									"var sessionId;\r",
 									"pm.test(\"Get sessionId for tests\", \r",
@@ -99,7 +103,8 @@
 									"    sessionId = pm.response.json().data.session;\r",
 									"    pm.collectionVariables.set(\"sessionId\", sessionId);\r",
 									"});\r",
-									"console.log(sessionId);"
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -166,7 +171,7 @@
 							"\r",
 							"pm.test(\"Response body is a valid JSON\", function () {\r",
 							"    pm.response.to.be.json; // Проверяем, что ответ в формате JSON\r",
-							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; // Пытаемся распарсить ответ\r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
 							"});\r",
 							"\r",
 							"const jsonData = pm.response.json();\r",
@@ -178,7 +183,11 @@
 							"    pm.expect(jsonData.data.rights.dostuplkp).to.eql(\"on\");\r",
 							"})\r",
 							"\r",
-							"console.log(jsonData.data.rights.dostuplkp);"
+							"//console.log(jsonData.data.rights.dostuplkp);\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -189,22 +198,16 @@
 			},
 			"request": {
 				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{sessionId}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "session-id",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": []
@@ -263,22 +266,16 @@
 			],
 			"request": {
 				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{sessionId}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "session-id",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "https://idev.etm.ru/api/ipro/user/profile/contractsvendors",
 					"protocol": "https",
@@ -335,22 +332,16 @@
 			],
 			"request": {
 				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{sessionId}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "session-id",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "https://idev.etm.ru/api/ipro/info/search/co_table/pme_state",
 					"protocol": "https",
@@ -408,22 +399,16 @@
 			],
 			"request": {
 				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{sessionId}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "session-id",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "https://idev.etm.ru/api/ipro/info/search/co_table/job_state",
 					"protocol": "https",
@@ -491,22 +476,16 @@
 			],
 			"request": {
 				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{sessionId}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "session-id",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "https://idev.etm.ru/api/ipro/info/search/co_table/help_oneteam_type",
 					"protocol": "https",
@@ -529,35 +508,2061 @@
 		},
 		{
 			"name": "help/obj12-список стадий проектов",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body is a valid JSON\", function () {\r",
+							"    pm.response.to.be.json; // Проверяем, что ответ в формате JSON\r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; // Пытаемся распарсить ответ\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив rows есть в ответе, не пустой\", function () {\r",
+							"    pm.expect(jsonData.data.rows).to.exist;\r",
+							"    pm.expect(jsonData.data.rows).to.not.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
-					"type": "apikey",
-					"apikey": [
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/info/search/help/obj12",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"search",
+						"help",
+						"obj12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "type_merchant-список категорий организаций",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body is a valid JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив rows есть в ответе, не пустой\", function () {\r",
+							"    pm.expect(jsonData.data.rows).to.exist;\r",
+							"    pm.expect(jsonData.data.rows).to.not.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/info/search/co_table/type_merchant",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"search",
+						"co_table",
+						"type_merchant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search/class/51 - BT98",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body is a valid JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив rows есть в ответе, не пустой\", function () {\r",
+							"    pm.expect(jsonData.data.rows).to.exist;\r",
+							"    pm.expect(jsonData.data.rows).to.not.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
 						{
-							"key": "value",
-							"value": "{{sessionId}}",
-							"type": "string"
+							"key": "term",
+							"value": "ВТ98",
+							"type": "text"
 						},
 						{
-							"key": "key",
-							"value": "session-id",
-							"type": "string"
+							"key": "len_lim",
+							"value": "6",
+							"type": "text"
 						}
 					]
 				},
-				"method": "GET",
-				"header": []
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/info/search/class/51",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"search",
+						"class",
+						"51"
+					]
+				}
 			},
 			"response": []
+		},
+		{
+			"name": "search/class/51 - BT99",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body is a valid JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив rows есть в ответе, не пустой\", function () {\r",
+							"    pm.expect(jsonData.data.rows).to.exist;\r",
+							"    pm.expect(jsonData.data.rows).to.not.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "term",
+							"value": "ВТ99",
+							"type": "text"
+						},
+						{
+							"key": "len_lim",
+							"value": "6",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/info/search/class/51",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"info",
+						"search",
+						"class",
+						"51"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/reports -Недостающие серты",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/reports?CurrDirCrRep=sert",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"reports"
+					],
+					"query": [
+						{
+							"key": "CurrDirCrRep",
+							"value": "sert"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/reports -Аналитика",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/reports",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCliTask -Список встреч",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/meeting/getCliTask?date1={{nearestMondayForCalendar}}&date2={{nearestSundayEndOfMonth}}&rows=100000&page=1",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"meeting",
+						"getCliTask"
+					],
+					"query": [
+						{
+							"key": "date1",
+							"value": "{{nearestMondayForCalendar}}"
+						},
+						{
+							"key": "date2",
+							"value": "{{nearestSundayEndOfMonth}}"
+						},
+						{
+							"key": "rows",
+							"value": "100000"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/3 -Новые товары",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/3?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"3"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/2 - характеристики товаров",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/2?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"2"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/4 - сертификаты",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/4?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"4"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/5 -изображения",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/5?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"5"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/6 - Тех.информация",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/6?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"6"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/7 - Описание",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});\r",
+							"\r",
+							"/*pm.test(\"Параметр error пустой\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.userdata.error).to.eql(\"\");\r",
+							"});*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/7?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"7"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/11 -Цены",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/11?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"11"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/12 - Аналоги",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/12?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"12"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/13 - Конструктор",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/13?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"13"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/14 - Однотипные товары",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/14?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"14"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/9 -статус товара на складе",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/9?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"9"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/10 -срок изготовления",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/10?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"10"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/8 -складской ассортимент",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/8?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"8"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/15 -EDI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/15?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"15"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/16 - ЮЗЭДО",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/16?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"16"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/17 - EDI Проекты",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/17?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"17"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/19 - Факторинг",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/19?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"19"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload_CSV",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "rc",
+							"value": "nci",
+							"type": "text"
+						},
+						{
+							"key": "man",
+							"value": "in",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/file/upload",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"file",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var today = new Date();",
+					"today.setMonth(today.getMonth()-1);",
+					"var requestedDate = today.toISOString().slice(0,10);",
+					"var parts = requestedDate.split(\"-\");",
+					"var formattedDate = parts[2]+\"-\"+parts[1]+\"-\"+parts[0];",
+					"pm.collectionVariables.set(\"lastMonthDate\", formattedDate);",
+					"",
+					"var currentDate = new Date;",
+					"var firstDayOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);",
+					"var dayOfWeekFirstDayOfCurentMonth = firstDayOfCurrentMonth.getDay();",
+					"var daysUntilMonday = (dayOfWeekFirstDayOfCurentMonth === 0) ?6 : (1 - dayOfWeekFirstDayOfCurentMonth);",
+					"var nearestMonday = new Date(firstDayOfCurrentMonth);",
+					"nearestMonday.setDate(firstDayOfCurrentMonth.getDate() + daysUntilMonday);",
+					"var formatDate = (\"0\" + nearestMonday.getDate()).slice(-2) +\"/\" + (\"0\" + (nearestMonday.getMonth()+1)).slice(-2) + \"/\" + (nearestMonday.getFullYear().toString().slice(-2));",
+					"pm.collectionVariables.set(\"nearestMondayForCalendar\", formatDate);",
+					"",
+					"var lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth()+1, 0);",
+					"var daysUntilSunday = lastDayOfMonth.getDay();",
+					"daysUntilSunday = (daysUntilSunday === 0) ? 0 : (7 - daysUntilSunday);",
+					"var nearestSunday = new Date(lastDayOfMonth);",
+					"nearestSunday.setDate(lastDayOfMonth.getDate() + daysUntilSunday);",
+					"var formatNearestSunday = (\"0\" + nearestSunday.getDate()).slice(-2) + \"/\" + (\"0\" + (nearestSunday.getMonth()+1)).slice(-2) +\"/\" + nearestSunday.getFullYear().toString().slice(-2);",
+					"pm.collectionVariables.set(\"nearestSundayEndOfMonth\", formatNearestSunday)",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
 		{
 			"key": "sessionToken",
-			"value": ""
+			"value": "",
+			"disabled": true
 		},
 		{
 			"key": "sessionId",
+			"value": ""
+		},
+		{
+			"key": "lastMonthDate",
+			"value": ""
+		},
+		{
+			"key": "nearestMondayForCalendar",
+			"value": ""
+		},
+		{
+			"key": "nearestSundayEndOfMonth",
 			"value": ""
 		}
 	]
