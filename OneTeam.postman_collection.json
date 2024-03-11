@@ -1013,6 +1013,1284 @@
 			"response": []
 		},
 		{
+			"name": "Upload_CSV",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateRandomNumber() {\r",
+							"    var randomNumber = '';\r",
+							"    for (var i = 0; i < 10; i++) {\r",
+							"        randomNumber += Math.floor(Math.random() * 10); // Добавляем случайную цифру от 0 до 9\r",
+							"    }\r",
+							"    return randomNumber;\r",
+							"}\r",
+							"\r",
+							"var randomDigitsNumber = generateRandomNumber();\r",
+							"pm.collectionVariables.set(\"randomNum\", randomDigitsNumber);\r",
+							"\r",
+							"console.log(randomDigitsNumber);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});\r",
+							"\r",
+							"var fileNameOnServer;\r",
+							"pm.test(\"Получение названия файла на сервере\", \r",
+							"    function () {\r",
+							"    fileNameOnServer= pm.response.json().data.file_name;\r",
+							"    pm.collectionVariables.set(\"fileNameOnServer\", fileNameOnServer);\r",
+							"});\r",
+							"console.log(fileNameOnServer);\r",
+							"\r",
+							"var fileNameByUser\r",
+							"pm.test(\"Название файла пользователя\", function(){\r",
+							"    fileNameByUser = pm.response.json().data.source_name;\r",
+							"    pm.collectionVariables.set(\"fileNameByUser\",\"file_name%3D\"+fileNameByUser);\r",
+							"})\r",
+							"console.log(\"file_name=\"+fileNameByUser);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "rc",
+							"value": "nsi",
+							"type": "text"
+						},
+						{
+							"key": "man",
+							"value": "in",
+							"type": "text"
+						},
+						{
+							"key": "fileToUpload",
+							"type": "file",
+							"src": "postman-cloud:///1eedfda2-6f4d-4c30-9492-0e561cc13da8"
+						},
+						{
+							"key": "num",
+							"value": "{{randomNum}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/file/upload",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"file",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/3/create -Новые товары",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/3/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"3",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/2/create -Характеристики",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/2/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"2",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/4/create -Сертификаты",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/4/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"4",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/5/create -Изображения",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/5/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"5",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/6/create -Тех.информация",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/6/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"6",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/7/create -Описание",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/7/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"7",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/11/create -Цены",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/11/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"11",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/12/create -Аналоги",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/12/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"12",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/13/create -Конструктор",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/13/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"13",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/14/create -Однотипные товары",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/14/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"14",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/9/create -Статус товара на складе",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/9/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"9",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/10/create -Срок изготовления",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/10/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"10",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/8/create -Складской ассортимент",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус содержит ОК\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив data есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://idev.etm.ru/api/ipro/job/8/create?p_state=6&p_file_server={{fileNameOnServer}}&p_parameters={{fileNameByUser}}",
+					"protocol": "https",
+					"host": [
+						"idev",
+						"etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"8",
+						"create"
+					],
+					"query": [
+						{
+							"key": "p_state",
+							"value": "6"
+						},
+						{
+							"key": "p_file_server",
+							"value": "{{fileNameOnServer}}"
+						},
+						{
+							"key": "p_parameters",
+							"value": "{{fileNameByUser}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "job/3 -Новые товары",
 			"event": [
 				{
@@ -2454,50 +3732,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "Upload_CSV",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "session-id",
-						"value": "{{sessionId}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "rc",
-							"value": "nci",
-							"type": "text"
-						},
-						{
-							"key": "man",
-							"value": "in",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "https://idev.etm.ru/api/ipro/file/upload",
-					"protocol": "https",
-					"host": [
-						"idev",
-						"etm",
-						"ru"
-					],
-					"path": [
-						"api",
-						"ipro",
-						"file",
-						"upload"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [
@@ -2528,7 +3762,7 @@
 					"var nearestSunday = new Date(lastDayOfMonth);",
 					"nearestSunday.setDate(lastDayOfMonth.getDate() + daysUntilSunday);",
 					"var formatNearestSunday = (\"0\" + nearestSunday.getDate()).slice(-2) + \"/\" + (\"0\" + (nearestSunday.getMonth()+1)).slice(-2) +\"/\" + nearestSunday.getFullYear().toString().slice(-2);",
-					"pm.collectionVariables.set(\"nearestSundayEndOfMonth\", formatNearestSunday)",
+					"pm.collectionVariables.set(\"nearestSundayEndOfMonth\", formatNearestSunday);",
 					""
 				]
 			}
@@ -2545,11 +3779,6 @@
 	],
 	"variable": [
 		{
-			"key": "sessionToken",
-			"value": "",
-			"disabled": true
-		},
-		{
 			"key": "sessionId",
 			"value": ""
 		},
@@ -2563,6 +3792,18 @@
 		},
 		{
 			"key": "nearestSundayEndOfMonth",
+			"value": ""
+		},
+		{
+			"key": "randomNum",
+			"value": ""
+		},
+		{
+			"key": "fileNameOnServer",
+			"value": ""
+		},
+		{
+			"key": "fileNameByUser",
 			"value": ""
 		}
 	]
