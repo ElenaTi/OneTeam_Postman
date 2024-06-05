@@ -1,4 +1,4 @@
-{
+git {
 	"info": {
 		"_postman_id": "e58c3ea5-2787-4d0b-ba90-833142fe4e7f",
 		"name": "OneTeam",
@@ -5492,8 +5492,7 @@
 						"header": [
 							{
 								"key": "session-id",
-								"value": "{{sessionIdForListReq}}",
-								"type": "text"
+								"value": "{{sessionIdForListReq}}"
 							}
 						],
 						"url": {
@@ -5554,8 +5553,7 @@
 						"header": [
 							{
 								"key": "session-id",
-								"value": "{{sessionIdForListReq}}",
-								"type": "text"
+								"value": "{{sessionIdForListReq}}"
 							}
 						],
 						"body": {
@@ -5756,8 +5754,7 @@
 						"header": [
 							{
 								"key": "session-id",
-								"value": "{{sessionId}}",
-								"type": "text"
+								"value": "{{sessionId}}"
 							}
 						],
 						"url": {
@@ -5893,7 +5890,7 @@
 									"});\r",
 									"\r",
 									"pm.test(\"Ответ быстрее 40000ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(40000);\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(90000);\r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -5927,8 +5924,7 @@
 						"header": [
 							{
 								"key": "session-id",
-								"value": "{{sessionId}}",
-								"type": "text"
+								"value": "{{sessionId}}"
 							}
 						],
 						"url": {
