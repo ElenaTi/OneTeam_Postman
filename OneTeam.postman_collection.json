@@ -1,4 +1,4 @@
-git {
+{git
 	"info": {
 		"_postman_id": "e58c3ea5-2787-4d0b-ba90-833142fe4e7f",
 		"name": "OneTeam",
@@ -358,6 +358,106 @@ git {
 								{
 									"key": "pwd",
 									"value": "heph7146",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{host}}etm.ru/api/ipro/user/login",
+							"protocol": "https",
+							"host": [
+								"{{host}}etm",
+								"ru"
+							],
+							"path": [
+								"api",
+								"ipro",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login_User_Success КИМ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\r",
+									"    \"Status code is 200\", \r",
+									"    function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is a valid JSON\", function () {\r",
+									"    pm.response.to.be.json; // Проверяем, что ответ в формате JSON\r",
+									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+									"});\r",
+									"\r",
+									"pm.test(\"У поставщика dostuplkp='on'\", function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.rights.dostuplkp).to.eql(\"on\");\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"var sessionId;\r",
+									"pm.test(\"Get sessionId for tests\", \r",
+									"    function () {\r",
+									"    sessionId = pm.response.json().data.session;\r",
+									"    pm.environment.set(\"sessionKIM\", sessionId);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var today = new Date();\r",
+									"today.setMonth(today.getMonth() - 1);\r",
+									"var requestedDate = today.toISOString().slice(0, 10);\r",
+									"var parts = requestedDate.split(\"-\");\r",
+									"var formattedDate = parts[2] + \"-\" + parts[1] + \"-\" + parts[0];\r",
+									"pm.environment.set(\"lastMonthDate\", formattedDate);\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "log",
+									"value": "51951cka",
+									"type": "text"
+								},
+								{
+									"key": "pwd",
+									"value": "lxca1500",
 									"type": "text"
 								}
 							]
@@ -2194,6 +2294,436 @@ git {
 								{
 									"key": "p_parameters",
 									"value": "{{fileNameByUserCSV}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload_CSV PriceList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"В ответе валидный JSON\", function () {\r",
+									"    pm.response.to.be.json; \r",
+									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Массив data есть в ответе, не пустой, название файла соотвествует отправленному\", function () {\r",
+									"    pm.expect(jsonData.data).to.exist;\r",
+									"    pm.expect(jsonData.data).not.to.be.empty;\r",
+									"    pm.expect(jsonData.data.source_name).to.be.eql(\"prices.csv\");\r",
+									"});\r",
+									"\r",
+									"var fileNameOnServer;\r",
+									"pm.test(\"Получение названия файла на сервере\", \r",
+									"    function () {\r",
+									"    fileNameOnServer= pm.response.json().data.file_name;\r",
+									"    pm.environment.set(\"fileNameOnServerPrices\", fileNameOnServer);\r",
+									"});\r",
+									"console.log(fileNameOnServer);\r",
+									"\r",
+									"var fileNameByUser\r",
+									"pm.test(\"Название файла пользователя\", function(){\r",
+									"    fileNameByUser = pm.response.json().data.source_name;\r",
+									"    pm.environment.set(\"fileNameByUserCSV\",\"file_name%3D\"+fileNameByUser);\r",
+									"})\r",
+									"console.log(\"file_name=\"+fileNameByUser);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateRandomNumber() {\r",
+									"    var randomNumber = '';\r",
+									"    for (var i = 0; i < 10; i++) {\r",
+									"        randomNumber += Math.floor(Math.random() * 10); // Добавляем случайную цифру от 0 до 9\r",
+									"    }\r",
+									"    return randomNumber;\r",
+									"}\r",
+									"\r",
+									"var randomDigitsNumber = generateRandomNumber();\r",
+									"pm.environment.set(\"randomNum\", randomDigitsNumber);\r",
+									"\r",
+									"console.log(randomDigitsNumber);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "session-id",
+								"value": "{{sessionId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "rc",
+									"value": "nsi",
+									"type": "text"
+								},
+								{
+									"key": "man",
+									"value": "in",
+									"type": "text"
+								},
+								{
+									"key": "fileToUpload",
+									"type": "file",
+									"src": "postman-cloud:///1ef297ca-6740-46c0-904c-cee890d9dc57"
+								},
+								{
+									"key": "num",
+									"value": "{{randomNum}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{host}}etm.ru/api/ipro/file/upload",
+							"protocol": "https",
+							"host": [
+								"{{host}}etm",
+								"ru"
+							],
+							"path": [
+								"api",
+								"ipro",
+								"file",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "job/20/create -Прайс-листы",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"В ответе валидный JSON\", function () {\r",
+									"    pm.response.to.be.json; \r",
+									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Массив data есть в ответе, не пустой\", function () {\r",
+									"    pm.expect(jsonData.data).to.exist;\r",
+									"    pm.expect(jsonData.data).not.to.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "session-id",
+								"value": "{{sessionId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://{{host}}etm.ru/api/ipro/job/20/create?p_state=6&p_file_server={{fileNameOnServerPrices}}&p_parameters={{fileNameByUserCSV}}&p_ext_param=client%3D61015",
+							"protocol": "https",
+							"host": [
+								"{{host}}etm",
+								"ru"
+							],
+							"path": [
+								"api",
+								"ipro",
+								"job",
+								"20",
+								"create"
+							],
+							"query": [
+								{
+									"key": "p_state",
+									"value": "6"
+								},
+								{
+									"key": "p_file_server",
+									"value": "{{fileNameOnServerPrices}}"
+								},
+								{
+									"key": "p_parameters",
+									"value": "{{fileNameByUserCSV}}"
+								},
+								{
+									"key": "p_ext_param",
+									"value": "client%3D61015"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload_CSV Скидка",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"В ответе валидный JSON\", function () {\r",
+									"    pm.response.to.be.json; \r",
+									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Массив data есть в ответе, не пустой, название файла соотвествует отправленному\", function () {\r",
+									"    pm.expect(jsonData.data).to.exist;\r",
+									"    pm.expect(jsonData.data).not.to.be.empty;\r",
+									"    pm.expect(jsonData.data.source_name).to.be.eql(\"prices.csv\");\r",
+									"});\r",
+									"\r",
+									"var fileNameOnServer;\r",
+									"pm.test(\"Получение названия файла на сервере\", \r",
+									"    function () {\r",
+									"    fileNameOnServer= pm.response.json().data.file_name;\r",
+									"    pm.environment.set(\"fileNameOnServerPrices\", fileNameOnServer);\r",
+									"});\r",
+									"console.log(fileNameOnServer);\r",
+									"\r",
+									"var fileNameByUser\r",
+									"pm.test(\"Название файла пользователя\", function(){\r",
+									"    fileNameByUser = pm.response.json().data.source_name;\r",
+									"    pm.environment.set(\"fileNameByUserCSV\",\"file_name%3D\"+fileNameByUser);\r",
+									"})\r",
+									"console.log(\"file_name=\"+fileNameByUser);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateRandomNumber() {\r",
+									"    var randomNumber = '';\r",
+									"    for (var i = 0; i < 10; i++) {\r",
+									"        randomNumber += Math.floor(Math.random() * 10); // Добавляем случайную цифру от 0 до 9\r",
+									"    }\r",
+									"    return randomNumber;\r",
+									"}\r",
+									"\r",
+									"var randomDigitsNumber = generateRandomNumber();\r",
+									"pm.environment.set(\"randomNum\", randomDigitsNumber);\r",
+									"\r",
+									"console.log(randomDigitsNumber);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "session-id",
+								"value": "{{sessionId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "rc",
+									"value": "nsi",
+									"type": "text"
+								},
+								{
+									"key": "man",
+									"value": "in",
+									"type": "text"
+								},
+								{
+									"key": "fileToUpload",
+									"type": "file",
+									"src": "postman-cloud:///1ef29808-47fb-4790-bcfa-3809888ac9d5"
+								},
+								{
+									"key": "num",
+									"value": "{{randomNum}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{host}}etm.ru/api/ipro/file/upload",
+							"protocol": "https",
+							"host": [
+								"{{host}}etm",
+								"ru"
+							],
+							"path": [
+								"api",
+								"ipro",
+								"file",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "job/21/create -Скидки",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"В ответе валидный JSON\", function () {\r",
+									"    pm.response.to.be.json; \r",
+									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Массив data есть в ответе, не пустой\", function () {\r",
+									"    pm.expect(jsonData.data).to.exist;\r",
+									"    pm.expect(jsonData.data).not.to.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "session-id",
+								"value": "{{sessionId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://{{host}}etm.ru/api/ipro/job/21/create?p_state=6&p_file_server={{fileNameOnServerPrices}}&p_parameters={{fileNameByUserCSV}}&p_ext_param=client%3D61015",
+							"protocol": "https",
+							"host": [
+								"{{host}}etm",
+								"ru"
+							],
+							"path": [
+								"api",
+								"ipro",
+								"job",
+								"21",
+								"create"
+							],
+							"query": [
+								{
+									"key": "p_state",
+									"value": "6"
+								},
+								{
+									"key": "p_file_server",
+									"value": "{{fileNameOnServerPrices}}"
+								},
+								{
+									"key": "p_parameters",
+									"value": "{{fileNameByUserCSV}}"
+								},
+								{
+									"key": "p_ext_param",
+									"value": "client%3D61015"
 								}
 							]
 						}
@@ -4646,6 +5176,83 @@ git {
 								"search",
 								"class",
 								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "info/search/clients/dict",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.status.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is a valid JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.expect(JSON.parse(pm.response.text())).to.be.ok;\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Массив rows есть в ответе, не пустой\", function () {\r",
+									"    pm.expect(jsonData.data.rows).to.exist;\r",
+									"    pm.expect(jsonData.data.rows).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "session-id",
+								"value": "{{sessionId}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://{{host}}etm.ru/api/ipro/info/search/clients/dict?term=нилед",
+							"protocol": "https",
+							"host": [
+								"{{host}}etm",
+								"ru"
+							],
+							"path": [
+								"api",
+								"ipro",
+								"info",
+								"search",
+								"clients",
+								"dict"
+							],
+							"query": [
+								{
+									"key": "term",
+									"value": "нилед"
+								}
 							]
 						}
 					},
@@ -8979,6 +9586,188 @@ git {
 						"ipro",
 						"job",
 						"19"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/20 -Прайс-листы",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив ob_File есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data.rows[0].ob_File).to.exist;\r",
+							"    });\r",
+							"\r",
+							"var fileNameOnServer = pm.environment.get(\"fileNameOnServerPrices\");\r",
+							"pm.test(\"ССылка на загруженный файл присутствует\", function () {\r",
+							"    pm.expect(jsonData.data.rows[0].ob_File[0].name).to.eql(\"PRice.csv\");\r",
+							"    pm.expect(jsonData.data.rows[0].ob_File[0].URL).not.to.be.empty;\r",
+							"    pm.expect(jsonData.data.rows[0].org_server).to.eql(fileNameOnServer);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{host}}etm.ru/api/ipro/job/20?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"{{host}}etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"20"
+					],
+					"query": [
+						{
+							"key": "sord",
+							"value": "desc"
+						},
+						{
+							"key": "d1",
+							"value": "{{lastMonthDate}}"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "sidx",
+							"value": "datetime"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "job/21 -Скидки",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Статус код в теле ответа равен 200\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.status.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В ответе валидный JSON\", function () {\r",
+							"    pm.response.to.be.json; \r",
+							"    pm.expect(JSON.parse(pm.response.text())).to.be.ok; \r",
+							"});\r",
+							"\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Массив ob_File есть в ответе\", function () {\r",
+							"    pm.expect(jsonData.data.rows[0].ob_File).to.exist;\r",
+							"    });\r",
+							"\r",
+							"var fileNameOnServer = pm.environment.get(\"fileNameOnServerPrices\");\r",
+							"pm.test(\"ССылка на загруженный файл присутствует\", function () {\r",
+							"    pm.expect(jsonData.data.rows[0].ob_File[0].name).to.eql(\"discount.csv\");\r",
+							"    pm.expect(jsonData.data.rows[0].ob_File[0].URL).not.to.be.empty;\r",
+							"    pm.expect(jsonData.data.rows[0].org_server).to.eql(fileNameOnServer);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "session-id",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{host}}etm.ru/api/ipro/job/21?sord=desc&d1={{lastMonthDate}}&page=1&rows=10&sidx=datetime",
+					"protocol": "https",
+					"host": [
+						"{{host}}etm",
+						"ru"
+					],
+					"path": [
+						"api",
+						"ipro",
+						"job",
+						"21"
 					],
 					"query": [
 						{
